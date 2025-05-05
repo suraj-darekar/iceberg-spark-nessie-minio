@@ -1,4 +1,5 @@
- error occurred while calling o61.sql.
+### One common error - Dependency Issue
+error occurred while calling o61.sql.
 : java.lang.NoSuchMethodError: 'void org.apache.spark.sql.catalyst.trees.Origin.<init>(scala.Option, scala.Option)'
 
 The error encountered, java.lang.NoSuchMethodError, is related to a mismatch in Spark dependencies, particularly with the Nessie integration.
