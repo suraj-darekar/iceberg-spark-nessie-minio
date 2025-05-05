@@ -1,0 +1,28 @@
+ error occurred while calling o61.sql.
+: java.lang.NoSuchMethodError: 'void org.apache.spark.sql.catalyst.trees.Origin.<init>(scala.Option, scala.Option)'
+
+The error you're encountering, java.lang.NoSuchMethodError, is related to a mismatch in Spark dependencies, particularly with the Nessie integration.
+Steps:
+1) Stop everything
+    --docker-compose down --volumes --remove-orphans
+2) Rebuild everything from scratch:
+    --docker-compose build --no-cache
+3) Confirm JAR Files Are Loaded Correctly
+    --docker exec -it spark-iceberg bash
+    Inside the container, navigate to the Spark JARs directory:
+        --ls /opt/spark/jars
+        Ensure that nessie-spark-extensions-3.2_2.12-0.77.0.jar, iceberg-spark-runtime-3.2_2.12-1.3.0.jar, and the hadoop-aws JARs are present.
+        necessary Iceberg and related libraries are present:
+
+            --iceberg-spark-runtime-3.5_2.12-1.5.0.jar (The main Iceberg runtime JAR for Spark)
+            --nessie-spark-extensions-3.2_2.12-0.77.0.jar (Nessie Spark extension JAR)
+            --iceberg-aws-bundle-1.5.0.jar (AWS-related Iceberg bundle, likely for working with S3 or other AWS storage)
+4) Ensure the spark.sql.extensions property is set in your Spark configuration (either in the spark-defaults.conf file or through your Spark container's environment variables) - right now its set correctly via yaml
+
+The issue is with above jar package incompatiblity
+--Iceberg Spark Runtime JAR: You're using iceberg-spark-runtime-3.5_2.12-1.5.0.jar, which is built for Spark 3.5.
+--Nessie Spark Extensions JAR: You're using nessie-spark-extensions-3.2_2.12-0.77.0.jar, which is designed for Spark 3.2.
+Solution - The doc clearly states https://projectnessie.org/guides/sql/#spark that for Spark 3.5.x, you need specific versions of Iceberg and Nessie libraries.
+Correct Versions for Spark 3.5.x:
+--Iceberg:Use org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.9.0
+--Nessie: Use org.projectnessie.nessie-integrations:nessie-spark-extensions-3.5_2.12:0.103.3
