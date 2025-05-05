@@ -16,8 +16,6 @@ NOTE! - Make sure entrypoint.sh file has LF set not CRLF (Windows)
 
 --Nessie: http://localhost:19120
 
---Iceberg REST API: http://localhost:8181
-
 4️⃣ Stopping Services
 
 --docker-compose down
