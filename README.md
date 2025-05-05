@@ -1,6 +1,6 @@
 ### Steps to Configure
 
-1️⃣ git clone [https://github.com/suraj-darekar/iceberg-spark-nessie-minio.gi](https://github.com/suraj-darekar/iceberg-spark-nessie-minio.git)
+1️⃣ git clone [https://github.com/suraj-darekar/iceberg-spark-nessie-minio.git](https://github.com/suraj-darekar/iceberg-spark-nessie-minio.git)
 
 NOTE! - Make sure entrypoint.sh file has LF set not CRLF (Windows)
 
